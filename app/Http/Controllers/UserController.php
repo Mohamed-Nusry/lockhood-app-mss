@@ -14,7 +14,7 @@ class UserController extends Controller
     ){}
 
     public function index(Request $request){
-
+       
         if($request->ajax()) {
             return $this->userService->get($request->all());
         }

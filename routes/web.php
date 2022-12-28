@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DepartmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,7 @@ use App\Http\Controllers\HomeController;
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 Route::prefix('user')->group(function () {
@@ -26,5 +28,12 @@ Route::prefix('user')->group(function () {
     Route::post('create', [UserController::class, 'create'])->name('user.create');
     Route::put('update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('delete/{id}', [UserController::class, 'delete'])->name('user.delete');
+});
+
+Route::prefix('department')->group(function () {
+    Route::get('/', [DepartmentController::class, 'index'])->name('department.index');
+    Route::post('create', [DepartmentController::class, 'create'])->name('department.create');
+    Route::put('update/{id}', [DepartmentController::class, 'update'])->name('department.update');
+    Route::delete('delete/{id}', [DepartmentController::class, 'delete'])->name('department.delete');
 });
 

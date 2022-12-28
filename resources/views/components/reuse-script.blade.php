@@ -16,7 +16,7 @@
     // types alert and confirm: "success", "error", "warning", "info", "question". Default: "warning"
     // overwrite default js alert
     window.alert = function(msg, title, type, params) {
-        const newTitle = (title == null) ? 'Ada yang tidak beres dengan aplikasi' : title;
+        const newTitle = (title == null) ? 'Something Wrong With Datatable' : title;
         const newType = (type == null) ? 'warning' : type;
         Swal.fire($.extend({
             title: newTitle,
@@ -40,16 +40,16 @@
     };
 
     const swalSuccess = (message, html = "") => {
-        swalSetup('Operasi Sukses', message, 'success', html);
+        swalSetup('Operation Success', message, 'success', html);
     }
     const swalError = (message, html = "") => {
-        swalSetup('Ada kesalahan', message, 'error', html);
+        swalSetup('Operation Failed', message, 'error', html);
     }
     const swalWarning = (message, html = "") => {
-        swalSetup('Perhatian', message, 'warning', html);
+        swalSetup('Warning', message, 'warning', html);
     }
     const swalCancel = (message, html = "") => {
-        swalSetup('Dibatalkan', message, 'error', html);
+        swalSetup('Cancelled', message, 'error', html);
     }
     const swalValidation = (errors) => {
         let values = '<span>';
@@ -108,8 +108,8 @@
                 swalError('', resp.error ?? resp.message)
             } else if(data.status === 401) {
                 Swal.fire({
-                    title: 'Sesi anda telah berakhir!',
-                    text: "Silahkan login kembali.",
+                    title: 'Something Wrong With Datatable',
+                    text: "Not Authorized",
                     icon: 'warning',
                 }).then((result) => {
                     location.href = '/login';
@@ -117,7 +117,7 @@
             } else if (data.status === 403) {
                 if (typeof resp.errors != 'undefined') {
                     let html = `<p>${resp.message}</p>`;
-                    html += '<p>Silahkan hapus role yang tertera dibawah ini:<p>';
+                    html += '<p>Something Wrong With Datatable:<p>';
                     html += '<span>';
                     resp.errors.forEach((item, index) => {
                         html += `<p>${+index+1}. ${item}</p>`
