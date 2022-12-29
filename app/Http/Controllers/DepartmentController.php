@@ -3,55 +3,47 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DepartmentRequest;
 use App\Models\Department;
+use App\Services\DepartmentService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class DepartmentController extends Controller
 {
+
+    public function __construct(
+        private DepartmentService $departmentService
+    ){}
+
   
     public function index(Request $request){
 
         if($request->ajax()) {
-            $data = Department::orderBy('created_at', 'desc')->limit(10)->get();
-            return $data;
-            return DataTables::eloquent($data)
-            ->addColumn('action', function($query){
-                $button = '<a type="button" data-id="'.$query->id.'" class="btn btn-primary btn-sm btn-edit"><i class="fas fa-pencil-alt"></i> Edit</a> ';
-                $button .= '<a type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash-alt"></i> Delete</a>';
-                return $button;
-            })
-            ->rawColumns(['action'])
-            ->toJson();
-        
+            return $this->departmentService->get($request->all());
         }
 
         return view('pages/departments/index');
     }
 
-    public function create(Request $request){
+    public function edit(Request $request){
         try {
+            return $this->sendSuccess([
+                'message'   => 'Department has been found',
+                'data'      => $this->departmentService->edit($request->id)
+            ]);
+        } catch (\Exception $e) {
+            return $this->sendError($e);
+        }
 
-            $this->validate($request, [
-                'name' => 'required',
-                'code' => 'required',
-            ],
-                $messages = [
-                    'required' => 'The :attribute field is required.',
-                ]
-            );
+    }
 
-            $input = [];
-            $input = $request->all();
-
-            Department::create($input);
-                
-
+    public function create(DepartmentRequest $request){
+        try {
             return $this->sendSuccess([
                 'message'   => 'Department has been created',
-                'data'      => null
+                'data'      => $this->departmentService->create($request->all())
             ]);
-
         } catch (\Exception $e) {
             return $this->sendError($e);
         }
@@ -61,7 +53,7 @@ class DepartmentController extends Controller
         try {
             return $this->sendSuccess([
                 'message'   => 'Department has been updated',
-                'data'      => $this->userService->update($request->all(), $id)
+                'data'      => $this->departmentService->update($request->all(), $id)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);
@@ -72,7 +64,7 @@ class DepartmentController extends Controller
         try {
             return $this->sendSuccess([
                 'message'   => 'Department '.$request->name.' has been deleted',
-                'data'      => $this->userService->delete($id)
+                'data'      => $this->departmentService->delete($id)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);

@@ -56,12 +56,45 @@
                     <input id="user-id" type="hidden">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="name" class="col-form-label">Name</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="John doe">
+                            <label for="first_name" class="col-form-label">First Name</label>
+                            <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name" class="col-form-label">Last Name</label>
+                            <input type="text" name="last_name" class="form-control" id="last_name" placeholder="Last Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-form-label">Username</label>
+                            <input type="text" name="name" class="form-control" id="name" placeholder="Username">
                         </div>
                         <div class="form-group">
                             <label for="email" class="col-form-label">Email</label>
-                            <input type="text" name="email" class="form-control" id="email" placeholder="john@example.com">
+                            <input type="text" name="email" class="form-control" id="email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="department_id" class="col-form-label">Department</label>
+                            <select id="department_id" name="department_id" class="form-control">
+                                <option value="1">IT</option>
+                                {{-- <option value="Running" {{ $job_account_detail->service_status=="Running" ? "selected" : ''}}>Running</option>
+                                <option value="Completed" {{ $job_account_detail->service_status=="Completed" ? "selected" : ''}}>Completed</option> --}}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="user_type" class="col-form-label">User Type</label>
+                            <select id="user_type" name="user_type" class="form-control">
+                                <option value="1">Admin</option>
+                                <option value="2">Factory Head</option>
+                                <option value="3">Supervisor</option>
+                                <option value="4">Department Head</option>
+                                <option value="5">Employee</option>
+                                {{-- <option value="Running" {{ $job_account_detail->service_status=="Running" ? "selected" : ''}}>Running</option>
+                                <option value="Completed" {{ $job_account_detail->service_status=="Completed" ? "selected" : ''}}>Completed</option> --}}
+                            </select>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="col-form-label">Password</label>
+                            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -134,7 +167,7 @@
              */
              $('.btn-create').on('click', function(event) {
                 event.preventDefault();
-                resetForm($('#user-form'));
+                document.getElementById("user-form").reset();
                 const id = null;
                 $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Create User`);
                 $('#user-id').val(id);
@@ -145,46 +178,138 @@
             /**
              * edit user
              */
-            $('#table-user').on('click', '.btn-edit', function(event) {
+            /**
+             * edit user
+             */
+             $('#table-user').on('click', '.btn-edit', function(event) {
                 event.preventDefault();
-                resetForm($('#user-form'));
+                document.getElementById("user-form").reset();
                 const id = $(this).data('id');
                 $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Edit User`);
                 $('#user-id').val(id);
+                const url = "user/edit/"+id;
+
+                let formData = {
+                    id : id,
+                    _token: '{{ csrf_token() }}'
+                }
+            
+                //Get Data
+                $.ajax({
+                    url: '{{ route('user.edit') }}',
+                    type:'POST',
+                    data: formData,
+                    beforeSend: function () {
+                        $('#user-id').attr("disabled", true);
+                        $('#first_name').attr("disabled", true);
+                        $('#last_name').attr("disabled", true);
+                        $('#email').attr("disabled", true);
+                        $('#name').attr("disabled", true);
+                        $('#password').attr("disabled", true);
+                        $('#user_type').attr("disabled", true);
+                        $('#department_id').attr("disabled", true);
+                    },
+                    complete: function () {
+                        $('#user-id').attr("disabled", false);
+                        $('#first_name').attr("disabled", false);
+                        $('#last_name').attr("disabled", false);
+                        $('#email').attr("disabled", false);
+                        $('#name').attr("disabled", false);
+                        $('#password').attr("disabled", true);
+                        $('#user_type').attr("disabled", true);
+                        $('#department_id').attr("disabled", true);
+                    },
+                    success: function (res) {
+                        if(res.status == 200) {  
+                           if(res.data){
+                            $('#user-id').val(res.data.id);
+                            $('#first_name').val(res.data.first_name);
+                            $('#last_name').val(res.data.last_name);
+                            $('#email').val(res.data.email);
+                            $('#name').val(res.data.name);
+                            $('#password').val('********');
+                           }
+                        }
+                    }
+                });
+
+
                 $('.user-modal').modal('toggle');
             });
+
+
 
             /**
              * Submit modal
              */
             $('#user-form').submit(function(event){
                 event.preventDefault();
-                const formData = new FormData(this);
-                formData.append('_method', 'PUT');
-                formData.append('_token', '{{ csrf_token() }}');
-                $.ajax({
-                    url: '{{ route('user.update', ['id' => 1]) }}',
-                    data: formData,
-                    type:'POST',
-                    dataType: 'json',
-                    contentType: false,
-                    processData: false,
-                    beforeSend: function () {
-                        $('.btn-save').attr("disabled", true);
-                        $('.btn-save').text('Please wait...');
-                    },
-                    complete: function () {
-                        $('.btn-save').attr("disabled", false);
-                        $('.btn-save').text('Successfully Updated');
-                    },
-                    success: function (data) {
-                        if(data.status == 200) {
-                            swalSuccess('', data.nessage);
-                            tableUser();
-                            $('.user-modal').modal('toggle');
+
+                const formId = $('#user-id').val();
+
+                if(!formId || formId == null){
+
+                    //Create Mode
+                    const formData = new FormData(this);
+                    formData.append('_method', 'POST');
+                    formData.append('_token', '{{ csrf_token() }}');
+                    $.ajax({
+                        url: '{{ route('user.create') }}',
+                        data: formData,
+                        type:'POST',
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function () {
+                            $('.btn-save').attr("disabled", true);
+                            $('.btn-save').text('Please wait......');
+                        },
+                        complete: function () {
+                            $('.btn-save').attr("disabled", false);
+                            $('.btn-save').text('Successfully Created');
+                        },
+                        success: function (data) {
+                            if(data.status == 200) {  
+                                swalSuccess('', data.nessage);
+                                tableUser();
+                                $('.user-modal').modal('toggle');
+                            }
                         }
-                    }
-                });
+                    });
+
+                }else{
+
+                    //Update Mode
+                    const formData = new FormData(this);
+                    formData.append('_method', 'PUT');
+                    formData.append('_token', '{{ csrf_token() }}');
+                    $.ajax({
+                        url:"{{ url('user/update') }}" + '/' + formId,
+                        data: formData,
+                        type:'POST',
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function () {
+                            $('.btn-save').attr("disabled", true);
+                            $('.btn-save').text('Please wait......');
+                        },
+                        complete: function () {
+                            $('.btn-save').attr("disabled", false);
+                            $('.btn-save').text('Successfully Updated');
+                        },
+                        success: function (data) {
+                            if(data.status == 200) {
+                                swalSuccess('', data.nessage);
+                                tableUser();
+                                $('.user-modal').modal('toggle');
+                            }
+                        }
+                    });
+
+                }
+
+                
                 return false;
             })
 

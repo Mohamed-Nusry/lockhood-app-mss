@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Administrator\ManagementUser\UpdateUserRequest;
-use App\Services\Interfaces\UserService;
+use App\Http\Requests\UserRequest;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -21,6 +21,18 @@ class UserController extends Controller
 
         return view('pages/users/index');
     }
+    
+    public function edit(Request $request){
+        try {
+            return $this->sendSuccess([
+                'message'   => 'User has been found',
+                'data'      => $this->userService->edit($request->id)
+            ]);
+        } catch (\Exception $e) {
+            return $this->sendError($e);
+        }
+
+    }
 
     public function create(Request $request){
         try {
@@ -33,7 +45,7 @@ class UserController extends Controller
         }
     }
 
-    public function update(UpdateUserRequest $request, $id){
+    public function update(UserRequest $request, $id){
         try {
             return $this->sendSuccess([
                 'message'   => 'User has been updated',

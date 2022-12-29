@@ -125,7 +125,7 @@
              */
              $('.btn-create').on('click', function(event) {
                 event.preventDefault();
-                resetForm($('#department-form'));
+                document.getElementById("department-form").reset();
                 const id = null;
                 $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Create Department`);
                 $('#department-id').val(id);
@@ -137,10 +137,45 @@
              */
             $('#table-department').on('click', '.btn-edit', function(event) {
                 event.preventDefault();
-                resetForm($('#department-form'));
+                document.getElementById("department-form").reset();
                 const id = $(this).data('id');
                 $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Edit Department`);
                 $('#department-id').val(id);
+                const url = "department/edit/"+id;
+
+                let formData = {
+                    id : id,
+                    _token: '{{ csrf_token() }}'
+                }
+            
+                //Get Data
+                $.ajax({
+                    url: '{{ route('department.edit') }}',
+                    type:'POST',
+                    data: formData,
+                    beforeSend: function () {
+                        $('#department-id').attr("disabled", true);
+                        $('#code').attr("disabled", true);
+                        $('#name').attr("disabled", true);
+                    },
+                    complete: function () {
+                        $('#department-id').attr("disabled", false);
+                        $('#code').attr("disabled", false);
+                        $('#name').attr("disabled", false);
+                    },
+                    success: function (res) {
+                        if(res.status == 200) {  
+                           console.log(res);
+                           if(res.data){
+                            $('#department-id').val(res.data.id);
+                            $('#code').val(res.data.code);
+                            $('#name').val(res.data.name);
+                           }
+                        }
+                    }
+                });
+
+
                 $('.department-modal').modal('toggle');
             });
 
@@ -150,63 +185,67 @@
             $('#department-form').submit(function(event){
                 event.preventDefault();
 
-                //If condition to check whether create or update
+                const formId = $('#department-id').val();
 
-                const formData = new FormData(this);
-                formData.append('_method', 'POST');
-                formData.append('_token', '{{ csrf_token() }}');
-                $.ajax({
-                    url: '{{ route('department.create') }}',
-                    data: formData,
-                    type:'POST',
-                    dataType: 'json',
-                    contentType: false,
-                    processData: false,
-                    beforeSend: function () {
-                        $('.btn-save').attr("disabled", true);
-                        $('.btn-save').text('Please wait......');
-                    },
-                    complete: function () {
-                        $('.btn-save').attr("disabled", false);
-                        $('.btn-save').text('Successfully Updated');
-                    },
-                    success: function (data) {
-                        if(data.status == 200) {  
-                            swalSuccess('', data.nessage);
-                            tableDepartment();
-                            $('.department-modal').modal('toggle');
+                if(!formId || formId == null){
+                    //Create Mode
+                    const formData = new FormData(this);
+                    formData.append('_method', 'POST');
+                    formData.append('_token', '{{ csrf_token() }}');
+                    $.ajax({
+                        url: '{{ route('department.create') }}',
+                        data: formData,
+                        type:'POST',
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function () {
+                            $('.btn-save').attr("disabled", true);
+                            $('.btn-save').text('Please wait......');
+                        },
+                        complete: function () {
+                            $('.btn-save').attr("disabled", false);
+                            $('.btn-save').text('Successfully Created');
+                        },
+                        success: function (data) {
+                            if(data.status == 200) {  
+                                swalSuccess('', data.nessage);
+                                tableDepartment();
+                                $('.department-modal').modal('toggle');
+                            }
                         }
-                    }
-                });
-
-                console.log(3333, 'okkk');
-
-                // const formData = new FormData(this);
-                // formData.append('_method', 'PUT');
-                // formData.append('_token', '{{ csrf_token() }}');
-                // $.ajax({
-                //     url: '{{ route('department.update', ['id' => 1]) }}',
-                //     data: formData,
-                //     type:'POST',
-                //     dataType: 'json',
-                //     contentType: false,
-                //     processData: false,
-                //     beforeSend: function () {
-                //         $('.btn-save').attr("disabled", true);
-                //         $('.btn-save').text('Please wait......');
-                //     },
-                //     complete: function () {
-                //         $('.btn-save').attr("disabled", false);
-                //         $('.btn-save').text('Successfully Updated');
-                //     },
-                //     success: function (data) {
-                //         if(data.status == 200) {
-                //             swalSuccess('', data.nessage);
-                //             tableDepartment();
-                //             $('.department-modal').modal('toggle');
-                //         }
-                //     }
-                // });
+                    });
+                    
+                }else{
+                    //Update Mode
+                    const formData = new FormData(this);
+                    formData.append('_method', 'PUT');
+                    formData.append('_token', '{{ csrf_token() }}');
+                    $.ajax({
+                        url:"{{ url('department/update') }}" + '/' + formId,
+                        data: formData,
+                        type:'POST',
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function () {
+                            $('.btn-save').attr("disabled", true);
+                            $('.btn-save').text('Please wait......');
+                        },
+                        complete: function () {
+                            $('.btn-save').attr("disabled", false);
+                            $('.btn-save').text('Successfully Updated');
+                        },
+                        success: function (data) {
+                            if(data.status == 200) {
+                                swalSuccess('', data.nessage);
+                                tableDepartment();
+                                $('.department-modal').modal('toggle');
+                            }
+                        }
+                    });
+                }
+                
                 return false;
             })
 

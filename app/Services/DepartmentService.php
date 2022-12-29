@@ -2,19 +2,18 @@
 
 namespace App\Services;
 
-use App\Repositories\Abstracts\UserRepository;
-use App\Services\Interfaces\UserService;
+use App\Repositories\DepartmentRepository;
 use Yajra\DataTables\Facades\DataTables;
 
-class UserServiceImpl implements UserService {
+class DepartmentService {
 
     public function __construct(
-        private UserRepository $userRepository
+        private DepartmentRepository $departmentRepository
     ){}
 
     public function get(array $data)
     {
-        return DataTables::eloquent($this->userRepository->getFilterQuery($data))
+        return DataTables::eloquent($this->departmentRepository->getFilterQuery($data))
             ->addColumn('action', function($query){
                 $button = '<a type="button" data-id="'.$query->id.'" class="btn btn-primary btn-sm btn-edit"><i class="fas fa-pencil-alt"></i> Edit</a> ';
                 $button .= '<a type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash-alt"></i> Delete</a>';
@@ -27,7 +26,16 @@ class UserServiceImpl implements UserService {
     public function create(array $data)
     {
         try {
-            return $this->userRepository->create($data);
+            return $this->departmentRepository->create($data);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function edit($id)
+    {
+        try {
+            return $this->departmentRepository->find($id);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -36,7 +44,7 @@ class UserServiceImpl implements UserService {
     public function update(array $data, $id)
     {
         try {
-            return $this->userRepository->update($data, $id);
+            return $this->departmentRepository->update($data, $id);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -45,7 +53,7 @@ class UserServiceImpl implements UserService {
     public function delete($id)
     {
         try {
-            return $this->userRepository->delete($id);
+            return $this->departmentRepository->delete($id);
         } catch (\Throwable $th) {
             throw $th;
         }
