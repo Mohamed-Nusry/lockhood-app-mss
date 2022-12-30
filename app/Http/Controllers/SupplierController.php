@@ -3,35 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DepartmentRequest;
-use App\Models\Department;
-use App\Services\DepartmentService;
+use App\Http\Requests\SupplierRequest;
+use App\Models\Supplier;
+use App\Services\SupplierService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
-class DepartmentController extends Controller
+class SupplierController extends Controller
 {
 
     public function __construct(
-        private DepartmentService $departmentService
+        private SupplierService $supplierService
     ){}
 
   
     public function index(Request $request){
 
         if($request->ajax()) {
-            return $this->departmentService->get($request->all());
+            return $this->supplierService->get($request->all());
         }
 
-        return view('pages/departments/index');
+        return view('pages/suppliers/index');
     }
 
     public function edit(Request $request){
         try {
             return $this->sendSuccess([
-                'message'   => 'Department has been found',
-                'data'      => $this->departmentService->edit($request->id)
+                'message'   => 'Supplier has been found',
+                'data'      => $this->supplierService->edit($request->id)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);
@@ -39,7 +39,7 @@ class DepartmentController extends Controller
 
     }
 
-    public function create(DepartmentRequest $request){
+    public function create(SupplierRequest $request){
         try {
 
             $input = [];
@@ -48,8 +48,8 @@ class DepartmentController extends Controller
             $input['updated_by'] = Auth::user()->id;
 
             return $this->sendSuccess([
-                'message'   => 'Department has been created',
-                'data'      => $this->departmentService->create($input)
+                'message'   => 'Supplier has been created',
+                'data'      => $this->supplierService->create($input)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);
@@ -64,8 +64,8 @@ class DepartmentController extends Controller
             $input['updated_by'] = Auth::user()->id;
 
             return $this->sendSuccess([
-                'message'   => 'Department has been updated',
-                'data'      => $this->departmentService->update($input, $id)
+                'message'   => 'Supplier has been updated',
+                'data'      => $this->supplierService->update($input, $id)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);
@@ -75,8 +75,8 @@ class DepartmentController extends Controller
     public function delete(Request $request, $id){
         try {
             return $this->sendSuccess([
-                'message'   => 'Department '.$request->name.' has been deleted',
-                'data'      => $this->departmentService->delete($id)
+                'message'   => 'Supplier '.$request->name.' has been deleted',
+                'data'      => $this->supplierService->delete($id)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);

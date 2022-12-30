@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Department extends Authenticatable
+class KanbanMaterial extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -17,10 +17,8 @@ class Department extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
-        'code',
-        'created_by',
-        'updated_by',
+        'kanban_id',
+        'material_id',
     ];
 
 }

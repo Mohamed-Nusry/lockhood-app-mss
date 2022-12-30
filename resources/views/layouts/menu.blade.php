@@ -5,7 +5,7 @@
     </a>
 </li>
 
-<li class="nav-item {{ request()->is('*user*') ? 'menu-opening menu-open' : '' }}">
+<li class="nav-item {{ request()->is('*user*') ||  request()->is('*department*') ? 'menu-opening menu-open' : '' }}">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-user"></i>
         <p>
@@ -15,7 +15,7 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('department.index') }}" class="nav-link {{ request()->is('user/department') ? 'sub-active' : '' }}">
+            <a href="{{ route('department.index') }}" class="nav-link {{ request()->is('department') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
                 <p>Departments</p>
             </a>
@@ -41,7 +41,7 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('*work/kanban') ? 'sub-active' : '' }}">
+            <a href="{{ route('kanban.index') }}" class="nav-link {{ request()->is('*work/kanban') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
                 <p>Kan Ban Card</p>
             </a>
@@ -49,7 +49,7 @@
     </ul>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('work/assigned') ? 'sub-active' : '' }}">
+            <a href="{{ route('assignedwork.index') }}" class="nav-link {{ request()->is('work/assignedwork') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
                 <p>Assigned Works</p>
             </a>
@@ -67,7 +67,7 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('*inventory/materials') ? 'sub-active' : '' }}">
+            <a href="{{ route('supplier.index') }}" class="nav-link {{ request()->is('*inventory/supplier') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
                 <p>Suppliers</p>
             </a>
@@ -75,7 +75,7 @@
     </ul>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('*inventory/materials') ? 'sub-active' : '' }}">
+            <a href="{{ route('material.index') }}" class="nav-link {{ request()->is('*inventory/material') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
                 <p>Purchase Materials</p>
             </a>

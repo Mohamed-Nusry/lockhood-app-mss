@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Department extends Authenticatable
+class Material extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -18,7 +18,9 @@ class Department extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'code',
+        'supplier_id',
+        'qty',
+        'purchase_price',
         'created_by',
         'updated_by',
     ];

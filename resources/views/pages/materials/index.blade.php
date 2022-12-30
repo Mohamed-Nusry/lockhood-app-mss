@@ -6,29 +6,27 @@
 
 @section('content')
     <div class="container-fluid">
-        
-        <button class="btn btn-primary mt-2 btn-create" style="float:right">Add New User</button>
-        <h2 style="padding:10px">User Management</h2>
-       
+        <button class="btn btn-primary mt-2 btn-create" style="float:right">Purchase New Material</button>
+        <h2 style="padding:10px">Materials</h2>
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Users List</h3>
+                        <h3 class="card-title">Material List</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                <table id="table-user" class="table table-bordered">
+                                <table id="table-material" class="table table-bordered">
                                     <thead class="thead-dark">
                                         <tr role="row">
                                             <th>No</th>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Email</th>
-                                            <th>Department</th>
-                                            <th>User Type</th>
+                                            <th>Name</th>
+                                            <th>Supplier</th>
+                                            <th>Quantity</th>
+                                            <th>Purchase Price</th>
+                                            <th>Created By</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -43,67 +41,49 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade user-modal" tabindex="-1" role="dialog" aria-labelledby="user-modal" aria-hidden="true">
+    <div class="modal fade material-modal" tabindex="-1" role="dialog" aria-labelledby="material-modal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-pencil-alt"></i> Create User</h5>
+                    <h5 class="modal-title"><i class="fas fa-pencil-alt"></i> Create Material</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form name="user-form" id="user-form">
-                    <input id="user-id" type="hidden">
+                <form name="material-form" id="material-form">
+                    <input id="material-id" type="hidden">
                     <div class="modal-body">
+
+                       
                         <div class="form-group">
-                            <label for="first_name" class="col-form-label">First Name</label>
-                            <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name">
+                            <label for="name" class="col-form-label">Name</label>
+                            <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name">
                         </div>
+
                         <div class="form-group">
-                            <label for="last_name" class="col-form-label">Last Name</label>
-                            <input type="text" name="last_name" class="form-control" id="last_name" placeholder="Last Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="name" class="col-form-label">Username</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Username">
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="col-form-label">Email</label>
-                            <input type="text" name="email" class="form-control" id="email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <label for="department_id" class="col-form-label">Department</label>
-                            <select id="department_id" name="department_id" class="form-control">
-                                @if (count($all_departments) > 0)
-                                    @foreach ($all_departments as $department)
-                                        <option value="{{$department->id}}">{{$department->name}}</option>
+                            <label for="supplier_id" class="col-form-label">Supplier</label>
+                            <select id="supplier_id" name="supplier_id" class="form-control">
+                                @if (count($all_suppliers) > 0)
+                                    @foreach ($all_suppliers as $supplier)
+                                        <option value="{{$supplier->id}}">{{$supplier->name}}</option>
                                     @endforeach
 
                                 @else
-                                    <option selected>No Departments</option>
+                                    <option selected>No Suppliers</option>
                                 @endif
                                 
-                                {{-- <option value="Running" {{ $job_account_detail->service_status=="Running" ? "selected" : ''}}>Running</option>
-                                <option value="Completed" {{ $job_account_detail->service_status=="Completed" ? "selected" : ''}}>Completed</option> --}}
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="user_type" class="col-form-label">User Type</label>
-                            <select id="user_type" name="user_type" class="form-control">
-                                <option value="1">Admin</option>
-                                <option value="2">Factory Head</option>
-                                <option value="3">Supervisor</option>
-                                <option value="4">Department Head</option>
-                                <option value="5">Employee</option>
-                                {{-- <option value="Running" {{ $job_account_detail->service_status=="Running" ? "selected" : ''}}>Running</option>
-                                <option value="Completed" {{ $job_account_detail->service_status=="Completed" ? "selected" : ''}}>Completed</option> --}}
-                            </select>
 
+                        <div class="form-group">
+                            <label for="qty" class="col-form-label">Quantity</label>
+                            <input type="number" name="qty" class="form-control" id="qty" placeholder="Enter Quantity">
                         </div>
                         <div class="form-group">
-                            <label for="password" class="col-form-label">Password</label>
-                            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                            <label for="purchase_price" class="col-form-label">Purchase Price</label>
+                            <input type="number" name="purchase_price" class="form-control" id="purchase_price" placeholder="Enter Purchase Price">
                         </div>
+                       
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -119,14 +99,14 @@
     @include('layouts.assets.js.datatables_js')
 
     <script>
-        tableUser();
+        tableMaterial();
         /**
-         * load table user
+         * load table material
          */
-        function tableUser() {
+        function tableMaterial() {
             generateDataTable({
-                selector: $('#table-user'),
-                url: '{{ route('user.index') }}',
+                selector: $('#table-material'),
+                url: '{{ route('material.index') }}',
                 columns: [{
                     data: null,
                     sortable: false,
@@ -137,24 +117,24 @@
                     }
                 }, 
                 {
-                    data: 'first_name',
-                    name: 'first_name',
+                    data: 'name',
+                    name: 'name',
                 }, 
                 {
-                    data: 'last_name',
-                    name: 'last_name',
+                    data: 'supplier_id',
+                    name: 'supplier_id',
+                }, 
+                {
+                    data: 'qty',
+                    name: 'qty',
                 },
                 {
-                    data: 'email',
-                    name: 'email',
-                }, 
+                    data: 'purchase_price',
+                    name: 'purchase_price',
+                },
                 {
-                    data: 'department_id',
-                    name: 'department_id',
-                }, 
-                {
-                    data: 'user_type',
-                    name: 'user_type',
+                    data: 'created_by',
+                    name: 'created_by',
                 }, 
                 {
                     data: 'action',
@@ -170,35 +150,30 @@
         }
 
         $(document).ready(function() {
-             /**
-             * Create user
+            /**
+             * Create material
              */
              $('.btn-create').on('click', function(event) {
                 event.preventDefault();
-                document.getElementById("user-form").reset();
+                document.getElementById("material-form").reset();
                 const id = null;
-                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Create User`);
-                $('#user-id').val(id);
-                $('.user-modal').modal('toggle');
-                $('#password').attr("disabled", false);
-                $('#user_type').attr("disabled", false);
-                $('#department_id').attr("disabled", false);
+                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Create Material`);
+                $('#material-id').val(id);
+                $('.material-modal').modal('toggle');
+                $('#supplier_id').attr("disabled", false);
+
             });
 
-
             /**
-             * edit user
+             * edit material
              */
-            /**
-             * edit user
-             */
-             $('#table-user').on('click', '.btn-edit', function(event) {
+            $('#table-material').on('click', '.btn-edit', function(event) {
                 event.preventDefault();
-                document.getElementById("user-form").reset();
+                document.getElementById("material-form").reset();
                 const id = $(this).data('id');
-                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Edit User`);
-                $('#user-id').val(id);
-                const url = "user/edit/"+id;
+                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Edit Material`);
+                $('#material-id').val(id);
+                const url = "material/edit/"+id;
 
                 let formData = {
                     id : id,
@@ -207,67 +182,56 @@
             
                 //Get Data
                 $.ajax({
-                    url: '{{ route('user.edit') }}',
+                    url: '{{ route('material.edit') }}',
                     type:'POST',
                     data: formData,
                     beforeSend: function () {
-                        $('#user-id').attr("disabled", true);
-                        $('#first_name').attr("disabled", true);
-                        $('#last_name').attr("disabled", true);
-                        $('#email').attr("disabled", true);
+                        $('#material-id').attr("disabled", true);
                         $('#name').attr("disabled", true);
-                        $('#password').attr("disabled", true);
-                        $('#user_type').attr("disabled", true);
-                        $('#department_id').attr("disabled", true);
+                        $('#qty').attr("disabled", true);
+                        $('#purchase_price').attr("disabled", true);
+                        $('#supplier_id').attr("disabled", true);
                     },
                     complete: function () {
-                        $('#user-id').attr("disabled", false);
-                        $('#first_name').attr("disabled", false);
-                        $('#last_name').attr("disabled", false);
-                        $('#email').attr("disabled", false);
+                        $('#material-id').attr("disabled", false);
                         $('#name').attr("disabled", false);
-                        $('#password').attr("disabled", true);
-                        $('#user_type').attr("disabled", true);
-                        $('#department_id').attr("disabled", true);
+                        $('#qty').attr("disabled", false);
+                        $('#purchase_price').attr("disabled", false);
+                        $('#supplier_id').attr("disabled", true);
                     },
                     success: function (res) {
                         if(res.status == 200) {  
+                           console.log(res);
                            if(res.data){
-                            $('#user-id').val(res.data.id);
-                            $('#first_name').val(res.data.first_name);
-                            $('#last_name').val(res.data.last_name);
-                            $('#email').val(res.data.email);
+                            $('#material-id').val(res.data.id);
                             $('#name').val(res.data.name);
-                            $('#user_type').val('');
-                            $('#department_id').val('');
-                            $('#password').val('********');
+                            $('#qty').val(res.data.qty);
+                            $('#purchase_price').val(res.data.purchase_price);
+                            $('#supplier_id').val('');
                            }
                         }
                     }
                 });
 
 
-                $('.user-modal').modal('toggle');
+                $('.material-modal').modal('toggle');
             });
-
-
 
             /**
              * Submit modal
              */
-            $('#user-form').submit(function(event){
+            $('#material-form').submit(function(event){
                 event.preventDefault();
 
-                const formId = $('#user-id').val();
+                const formId = $('#material-id').val();
 
                 if(!formId || formId == null){
-
                     //Create Mode
                     const formData = new FormData(this);
                     formData.append('_method', 'POST');
                     formData.append('_token', '{{ csrf_token() }}');
                     $.ajax({
-                        url: '{{ route('user.create') }}',
+                        url: '{{ route('material.create') }}',
                         data: formData,
                         type:'POST',
                         dataType: 'json',
@@ -284,20 +248,19 @@
                         success: function (data) {
                             if(data.status == 200) {  
                                 swalSuccess('', data.nessage);
-                                tableUser();
-                                $('.user-modal').modal('toggle');
+                                tableMaterial();
+                                $('.material-modal').modal('toggle');
                             }
                         }
                     });
-
+                    
                 }else{
-
                     //Update Mode
                     const formData = new FormData(this);
                     formData.append('_method', 'PUT');
                     formData.append('_token', '{{ csrf_token() }}');
                     $.ajax({
-                        url:"{{ url('user/update') }}" + '/' + formId,
+                        url:"{{ url('inventory/material/update') }}" + '/' + formId,
                         data: formData,
                         type:'POST',
                         dataType: 'json',
@@ -314,33 +277,31 @@
                         success: function (data) {
                             if(data.status == 200) {
                                 swalSuccess('', data.nessage);
-                                tableUser();
-                                $('.user-modal').modal('toggle');
+                                tableMaterial();
+                                $('.material-modal').modal('toggle');
                             }
                         }
                     });
-
                 }
-
                 
                 return false;
             })
 
             /**
-             * Delete user
+             * Delete material
              */
-            $('#table-user').on('click', '.btn-delete', function(event){
+            $('#table-material').on('click', '.btn-delete', function(event){
                 event.preventDefault();
                 const id       = $(this).data('id');
                 const name     = $(this).data('name');
                 const formData = new FormData();
-                const url      = "{{ route('user.delete', ['id' => ':id']) }}";
+                const url      = "{{ route('material.delete', ['id' => ':id']) }}";
                 formData.append('id', id);
                 formData.append('name', name);
                 formData.append('_method', 'DELETE');
                 formData.append('_token', '{{ csrf_token() }}');
                 swalConfirm({
-                    title: 'Delete user?',
+                    title: 'Delete material?',
                     confirm: 'Delete!',
                     cancel: 'Cancel',
                     icon: 'question',
@@ -352,7 +313,7 @@
                             processData: false,
                             contentType: false,
                             success: function(result) {
-                                tableUser();
+                                tableMaterial();
                                 swalSuccess('',result.message);
                             }
                         })
