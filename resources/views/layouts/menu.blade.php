@@ -93,7 +93,7 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('*report/work') ? 'sub-active' : '' }}">
+            <a href="{{ route('workreport.index') }}" class="nav-link {{ request()->is('*report/work') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
                 <p>Work Report</p>
             </a>
@@ -101,7 +101,7 @@
     </ul>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('*report/income') ? 'sub-active' : '' }}">
+            <a href="{{ route('incomereport.index') }}" class="nav-link {{ request()->is('*report/income') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
                 <p>Income Report</p>
             </a>

@@ -9,6 +9,7 @@ use App\Http\Controllers\KanbanController;
 use App\Http\Controllers\AssignedWorkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +80,15 @@ Route::prefix('inventory')->group(function () {
     });
 
   
+});
+
+Route::prefix('report')->group(function () {
+    Route::prefix('work')->group(function () {
+        Route::get('/', [ReportController::class, 'workreport'])->name('workreport.index');
+    });
+    Route::prefix('income')->group(function () {
+        Route::get('/', [ReportController::class, 'incomereport'])->name('incomereport.index');
+    });
 });
 
 
