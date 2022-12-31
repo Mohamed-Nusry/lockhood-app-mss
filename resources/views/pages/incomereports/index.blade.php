@@ -6,8 +6,34 @@
 
 @section('content')
     <div class="container-fluid">
-        <button class="btn btn-primary mt-2 btn-create" style="float:right">Download PDF</button>
         <h2 style="padding:10px">Income Report</h2>
+        <form name="material-form" id="material-form" method="POST" action="{{url('/report/income/pdf')}}">
+            @csrf
+            <div class="row">
+                <div class="col-4">
+            <div class="form-group">
+                <label for="from" class="col-form-label">From</label>
+                <input type="date" name="from" class="form-control" id="from" placeholder="Enter From Date">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="to" class="col-form-label">To</label>
+                <input type="date" name="to" class="form-control" id="to" placeholder="Enter To Date">
+            </div>
+            </div>
+
+            <div class="col-4">
+                <button type="submit" class="btn btn-primary mt-4" style="margin-top: 36px !important;" >Download PDF</button>
+
+            </div>
+            </div>
+
+        </form>
+
+        <br>
+        <br>
+
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -26,7 +52,9 @@
                                             <th>Supplier</th>
                                             <th>Quantity</th>
                                             <th>Purchase Price</th>
+                                            <th>Created On</th>
                                             <th>Created By</th>
+                                            <th>Updated By</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -80,8 +108,16 @@
                     name: 'purchase_price',
                 },
                 {
+                    data: 'created_at',
+                    name: 'created_at',
+                }, 
+                {
                     data: 'created_by',
                     name: 'created_by',
+                }, 
+                {
+                    data: 'updated_by',
+                    name: 'updated_by',
                 }, 
                 ],
                 columnDefs: [{

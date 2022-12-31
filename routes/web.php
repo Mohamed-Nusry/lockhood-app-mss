@@ -85,9 +85,11 @@ Route::prefix('inventory')->group(function () {
 Route::prefix('report')->group(function () {
     Route::prefix('work')->group(function () {
         Route::get('/', [ReportController::class, 'workreport'])->name('workreport.index');
+        Route::post('/pdf', [ReportController::class, 'workreportPDF'])->name('workreport.pdf');
     });
     Route::prefix('income')->group(function () {
         Route::get('/', [ReportController::class, 'incomereport'])->name('incomereport.index');
+        Route::post('/pdf', [ReportController::class, 'incomereportPDF'])->name('incomereport.pdf');
     });
 });
 

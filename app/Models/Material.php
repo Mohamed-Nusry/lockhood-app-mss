@@ -25,4 +25,12 @@ class Material extends Authenticatable
         'updated_by',
     ];
 
+    public function supplier() {
+        return $this->belongsTo('App\Models\Supplier', 'supplier_id', 'id');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\Models\User', 'updated_by', 'id');
+    }
+
 }

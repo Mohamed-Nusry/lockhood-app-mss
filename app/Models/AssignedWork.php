@@ -30,4 +30,20 @@ class AssignedWork extends Authenticatable
         'updated_by',
     ];
 
+    public function department() {
+        return $this->belongsTo('App\Models\Department', 'department_id', 'id');
+    }
+
+    public function employee() {
+        return $this->belongsTo('App\Models\User', 'employee_id', 'id');
+    }
+
+    public function kanban() {
+        return $this->belongsTo('App\Models\Kanban', 'kanban_id', 'id');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\Models\User', 'updated_by', 'id');
+    }
+
 }

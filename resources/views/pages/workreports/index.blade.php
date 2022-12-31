@@ -8,7 +8,8 @@
     <div class="container-fluid">
 
         <h2 style="padding:10px">Works Report</h2>
-        <form name="material-form" id="material-form">
+        <form name="material-form" id="material-form" method="POST" action="{{url('/report/work/pdf')}}">
+            @csrf
             <div class="row">
                 <div class="col-4">
             <div class="form-group">
@@ -24,7 +25,7 @@
             </div>
 
             <div class="col-4">
-                <button class="btn btn-primary mt-4 btn-create" >Download PDF</button>
+                <button type="submit" class="btn btn-primary mt-4" style="margin-top: 36px !important;" >Download PDF</button>
 
             </div>
             </div>
