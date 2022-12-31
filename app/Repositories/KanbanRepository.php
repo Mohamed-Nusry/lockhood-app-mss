@@ -1,29 +1,14 @@
 <?php
 
-namespace App\Repositories\Abstracts;
+namespace App\Repositories;
 
-use App\Exceptions\RepositoryException;
+use App\Models\Kanban;
+use Illuminate\Container\Container as App;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Container\Container as App;
 
-/**
- * abstract class BaseRepositoryAbstract
- *
- * @package App\Repositories
- */
-abstract class BaseRepository
+class KanbanRepository
 {
-    /**
-     * @var Model
-     */
-    protected $model;
-
-    /**
-     * @var Application
-     */
-    protected $app;
-
 
     public function __construct(App $app)
     {
@@ -31,26 +16,17 @@ abstract class BaseRepository
         $this->makeModel();
     }
 
-    /**
-     * Specify Model class name
-     *
-     * @return Class
-     */
-    abstract public function model();
 
-    /**
-     * Filter data based on user input
-     *
-     * @param array $filter
-     * @param       $query
-     */
-    abstract public function filterData(array $filter, $query);
+    public function model()
+    {
+        return Kanban::class;
+    }
 
-    /**
-     * @param array $data
-     *
-     * @return Model
-     */
+    public function filterData(array $filter, $query)
+    {
+
+    }
+
     public function create(array $data)
     {
         $model = $this->model->newInstance($data);
@@ -112,6 +88,23 @@ abstract class BaseRepository
     {
         return $this->model->all($columns);
     }
+
+    public function makeModel()
+    {
+        return $this->setModel($this->model());
+    }
+
+    public function setModel($eloquentModel)
+    {
+        $model = $this->app->make($eloquentModel);
+
+        if (!$model instanceof Model) {
+            throw new Exception("Class {$model} must be an instance of Illuminate\\Database\\Eloquent\\Model");
+        }
+
+        return $this->model = $model;
+    }
+
 
     /**
      * Get paginated filtered data.
@@ -176,36 +169,12 @@ abstract class BaseRepository
         return $this->model->where($attribute, '=', $value)->first($columns);
     }
 
-    public function makeModel()
-    {
-        return $this->setModel($this->model());
-    }
-
     /**
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function newQuery()
     {
         return $this->model->newQuery();
-    }
-
-    /**
-     * Set Eloquent Model to instantiate
-     *
-     * @param $eloquentModel
-     *
-     * @return Model
-     * @throws RepositoryException|\Illuminate\Contracts\Container\BindingResolutionException
-     */
-    public function setModel($eloquentModel)
-    {
-        $model = $this->app->make($eloquentModel);
-
-        if (!$model instanceof Model) {
-            throw new Exception("Class {$model} must be an instance of Illuminate\\Database\\Eloquent\\Model");
-        }
-
-        return $this->model = $model;
     }
 
 }

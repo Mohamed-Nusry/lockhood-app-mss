@@ -3,41 +3,46 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
-use App\Models\Department;
-use App\Services\UserService;
+use App\Http\Requests\MaterialRequest;
+use App\Models\Material;
+use App\Models\Supplier;
+use App\Services\MaterialService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\Facades\DataTables;
 
-class UserController extends Controller
+class MaterialController extends Controller
 {
+
     public function __construct(
-        private UserService $userService
+        private MaterialService $materialService
     ){}
 
+  
     public function index(Request $request){
-       
+
         if($request->ajax()) {
-            return $this->userService->get($request->all());
+            return $this->materialService->get($request->all());
         }
 
-        //Get Departments
-        $all_departments = [];
-        $departments_count = Department::count();
-        if($departments_count > 0){
-            $get_departments = Department::all();
-            $all_departments = $get_departments;
+        //Get Suppliers
+        $all_suppliers = [];
+
+
+        $suppliers_count = Supplier::count();
+        if($suppliers_count > 0){
+            $get_suppliers = Supplier::all();
+            $all_suppliers = $get_suppliers;
         }
 
-        return view('pages/users/index', compact('all_departments'));
+        return view('pages/materials/index', compact('all_suppliers'));
     }
-    
+
     public function edit(Request $request){
         try {
             return $this->sendSuccess([
-                'message'   => 'User has been found',
-                'data'      => $this->userService->edit($request->id)
+                'message'   => 'Material has been found',
+                'data'      => $this->materialService->edit($request->id)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);
@@ -45,26 +50,24 @@ class UserController extends Controller
 
     }
 
-    public function create(Request $request){
+    public function create(MaterialRequest $request){
         try {
-
 
             $input = [];
             $input = $request->all();
-            $input['password'] = Hash::make($input['password']);
             $input['created_by'] = Auth::user()->id;
             $input['updated_by'] = Auth::user()->id;
 
             return $this->sendSuccess([
-                'message'   => 'User has been created',
-                'data'      => $this->userService->create($input)
+                'message'   => 'Material has been purchased',
+                'data'      => $this->materialService->create($input)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);
         }
     }
 
-    public function update(UserRequest $request, $id){
+    public function update(Request $request, $id){
         try {
 
             $input = [];
@@ -72,8 +75,8 @@ class UserController extends Controller
             $input['updated_by'] = Auth::user()->id;
 
             return $this->sendSuccess([
-                'message'   => 'User has been updated',
-                'data'      => $this->userService->update($input, $id)
+                'message'   => 'Material has been updated',
+                'data'      => $this->materialService->update($input, $id)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);
@@ -83,8 +86,8 @@ class UserController extends Controller
     public function delete(Request $request, $id){
         try {
             return $this->sendSuccess([
-                'message'   => 'User '.$request->name.' has been deleted',
-                'data'      => $this->userService->delete($id)
+                'message'   => 'Material '.$request->name.' has been deleted',
+                'data'      => $this->materialService->delete($id)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);

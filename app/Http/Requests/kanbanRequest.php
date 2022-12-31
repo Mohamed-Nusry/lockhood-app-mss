@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Administrator\ManagementUser;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class KanbanRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,16 +25,15 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required|email',
+            'tasks' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'Name wajib diisi!',
-            'email.required' => 'Email wajib diisi!',
-            'email.email'    => 'Email harus berupa email!'
+            'name.required' => 'Name Required!',
+            'tasks.required' => 'Tasks Required!',
         ];
     }
 }

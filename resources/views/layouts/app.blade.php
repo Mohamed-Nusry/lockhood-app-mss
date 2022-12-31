@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     @include('layouts.assets.css.overlayscrollbar')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
 
     @stack('page_css')
 
@@ -92,6 +93,7 @@
 @include('layouts.assets.js.momentjs')
 @include('layouts.assets.js.overlayscrollbar')
 @include('components.reuse-script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
 @stack('page_scripts')
 </body>
