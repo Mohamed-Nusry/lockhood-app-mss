@@ -36,9 +36,50 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                    <img src="{{ asset('image/logo.png') }}"
-                         class="user-image img-circle elevation-2" alt="User Image">
-                    <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+                    {{-- <img src="{{ asset('image/logo.png') }}"
+                         class="user-image img-circle elevation-2" alt="User Image"> --}}
+                         @if(Auth::user()->user_type != null)
+                            @if(Auth::user()->user_type == 1)    
+                                <span class="d-none d-md-inline">{{ Auth::user()->name }}  (Role - Admin)</span>
+                            @else
+
+                                @if(Auth::user()->user_type == 2)    
+                                    <span class="d-none d-md-inline">{{ Auth::user()->name }}  (Role - Factory Head)</span>
+                                @else
+
+                                
+                                    @if(Auth::user()->user_type == 3)    
+                                        <span class="d-none d-md-inline">{{ Auth::user()->name }}  (Role - Supervisor)</span>
+                                    @else
+
+                                        @if(Auth::user()->user_type == 4)    
+                                            <span class="d-none d-md-inline">{{ Auth::user()->name }}  (Role - Department Head)</span>
+                                        @else
+
+                                            @if(Auth::user()->user_type == 5)    
+                                                <span class="d-none d-md-inline">{{ Auth::user()->name }}  (Role - Employee)</span>
+                                            @else
+                                                
+                                                <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+                                                
+                                            @endif
+                                            
+
+                                        @endif
+                                        
+
+                                    @endif
+                                    
+
+                                @endif
+                                
+
+                            @endif
+
+                         @else
+                            <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+                         @endif
+                   
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <!-- User image -->
