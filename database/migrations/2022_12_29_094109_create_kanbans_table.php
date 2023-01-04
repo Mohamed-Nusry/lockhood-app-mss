@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->longText('tasks')->nullable();
-            $table->integer('status')->default(0); //0 = Pending, 1 = Ongoing, 2 = Completed
+            $table->integer('status')->default(1); //1 = Pending, 2 = Ongoing, 3 = Completed, 4 = Closed
             $table->integer('department_id')->nullable();
             $table->integer('created_by')->default(1);
             $table->integer('updated_by')->default(1);

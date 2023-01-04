@@ -24,4 +24,8 @@ class Supplier extends Authenticatable
         'updated_by',
     ];
 
+    public function createdUser() {
+        return $this->belongsTo('App\Models\User', 'created_by', 'id');
+    }
+
 }

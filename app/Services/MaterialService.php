@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Material;
 use App\Repositories\MaterialRepository;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class MaterialService {
@@ -15,9 +17,27 @@ class MaterialService {
     {
         return DataTables::eloquent($this->materialRepository->getFilterQuery($data))
             ->addColumn('action', function($query){
-                $button = '<a type="button" data-id="'.$query->id.'" class="btn btn-primary btn-sm btn-edit"><i class="fas fa-pencil-alt"></i> Edit</a> ';
-                $button .= '<a type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash-alt"></i> Delete</a>';
+                if(Auth::user()->user_type != 5 ){
+                    $button = '<button type="button" data-id="'.$query->id.'" class="btn btn-primary btn-sm btn-edit"><i class="fas fa-pencil-alt"></i> Edit</button> ';
+                    $button .= '<button type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash-alt"></i> Delete</button>';
+                }else{ 
+                    $button = '<button disabled type="button" data-id="'.$query->id.'" class="btn btn-primary btn-sm btn-edit"><i class="fas fa-pencil-alt"></i> Edit</button> ';
+                    $button .= '<button disabled type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash-alt"></i> Delete</button>';
+                }
+
                 return $button;
+            })
+            ->addColumn('supplier_id', function (Material $supplier) {
+                return ($supplier->supplier != null) ? $supplier->supplier->name : "N/A";
+            })
+            ->addColumn('created_by', function (Material $created_user) {
+                return ($created_user->createdUser != null) ? $created_user->createdUser->first_name.' '.$created_user->createdUser->last_name : "N/A";
+            })
+            ->addColumn('created_at', function (Material $date) {
+                return date('M j Y g:i A', strtotime($date->created_at));
+             })
+             ->addColumn('updated_by', function (Material $updated_user) {
+                return ($updated_user->updateUser != null) ? $updated_user->updateUser->first_name.' '.$updated_user->updateUser->last_name : "N/A";
             })
             ->rawColumns(['action'])
             ->toJson();

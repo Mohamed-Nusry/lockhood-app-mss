@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserService {
@@ -15,9 +17,45 @@ class UserService {
     {
         return DataTables::eloquent($this->userRepository->getFilterQuery($data))
             ->addColumn('action', function($query){
-                $button = '<a type="button" data-id="'.$query->id.'" class="btn btn-primary btn-sm btn-edit"><i class="fas fa-pencil-alt"></i> Edit</a> ';
-                $button .= '<a type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash-alt"></i> Delete</a>';
+                if(Auth::user()->user_type == 1 || Auth::user()->user_type == 2){
+                    $button = '<button type="button" data-id="'.$query->id.'" class="btn btn-primary btn-sm btn-edit"><i class="fas fa-pencil-alt"></i> Edit</button> ';
+                    $button .= '<button type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash-alt"></i> Delete</button>';
+                }else{
+                    $button = '<button disabled type="button" data-id="'.$query->id.'" class="btn btn-primary btn-sm btn-edit"><i class="fas fa-pencil-alt"></i> Edit</button> ';
+                    $button .= '<button disabled type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash-alt"></i> Delete</button>';
+                }
+               
                 return $button;
+            })
+            ->addColumn('department_id', function (User $department) {
+                return ($department->department != null) ? $department->department->name : "N/A";
+            })
+            ->addColumn('user_type', function ($query) {
+                if($query->user_type != null){
+                    if($query->user_type ==  1){
+                        return "Admin";
+                    }else{
+                        if($query->user_type ==  2){
+                            return "Factory Head";
+                        }else{
+                            if($query->user_type ==  3){
+                                return "Supervisor";
+                            }else{
+                                if($query->user_type ==  4){
+                                    return "Department Head";
+                                }else{
+                                    if($query->user_type ==  5){
+                                        return "Employee";
+                                    }else{
+                                        return "N/A";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    return "N/A";
+                }
             })
             ->rawColumns(['action'])
             ->toJson();
