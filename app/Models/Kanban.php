@@ -25,4 +25,16 @@ class Kanban extends Authenticatable
         'updated_by',
     ];
 
+    public function department() {
+        return $this->belongsTo('App\Models\Department', 'department_id', 'id');
+    }
+
+    public function createdUser() {
+        return $this->belongsTo('App\Models\User', 'created_by', 'id');
+    }
+
+    public function updateUser() {
+        return $this->belongsTo('App\Models\User', 'updated_by', 'id');
+    }
+
 }

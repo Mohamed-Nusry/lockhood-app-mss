@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->longText('tasks')->nullable();
-            $table->integer('status')->default(0); //0 = Pending, 1 = Ongoing, 2 = Completed
+            $table->integer('status')->default(1); //1 = Pending, 2 = Ongoing, 3 = Completed
             $table->integer('department_id')->nullable();
             $table->integer('employee_id')->nullable();
             $table->integer('kanban_id')->nullable();

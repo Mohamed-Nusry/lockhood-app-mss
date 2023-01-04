@@ -6,7 +6,15 @@
 
 @section('content')
     <div class="container-fluid">
-        <button class="btn btn-primary mt-2 btn-create" style="float:right">Create Kanban Card</button>
+        @if(Auth::user()->user_type != null)
+            @if(Auth::user()->user_type == 3)
+                <button class="btn btn-primary mt-2 btn-create" style="float:right">Create Kanban Card</button>
+            @else
+                <i class="fas fa-question-circle mt-3 btn-help" style="float:right;  cursor:pointer;"></i>
+                <button disabled class="btn btn-primary mt-2 btn-create mr-2" style="float:right">Create Kanban Card</button>
+                
+            @endif
+        @endif
         <h2 style="padding:10px">Kanban Cards</h2>
         <div class="row">
             <div class="col-12">
@@ -82,6 +90,34 @@
             </div>
         </div>
     </div>
+
+    <!-- Help Modal -->
+    <div class="modal fade help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger"><i class="fas fa-exclamation-circle "></i> Access Denied</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="help-form" id="help-form">
+                    <div class="modal-body">
+
+                        <p>If the button is disabled, that means you have no access to perform this operation. Some operations are restricted
+                            to suitable roles. If you have any issues please contact Lockhood system admin.
+                        </p>
+
+                       
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('page_scripts')
@@ -136,7 +172,7 @@
                 {
                     data: 'action',
                     name: 'action',
-                    width: '20%',
+                    width: '23%',
                 }
                 ],
                 columnDefs: [{
@@ -313,6 +349,77 @@
                     }
                 })
             })
+
+            //On Mark as ongoing button click
+            $('#table-kanban').on('click', '.btn-ongoing', function(event){
+                event.preventDefault();
+                const id       = $(this).data('id');
+                const name     = $(this).data('name');
+                const status     = 2;
+
+                changeStatus(id, name, status)
+                
+            })
+
+            //On Mark as complete button click
+            $('#table-kanban').on('click', '.btn-complete', function(event){
+                event.preventDefault();
+                const id       = $(this).data('id');
+                const name     = $(this).data('name');
+                const status     = 3;
+
+                changeStatus(id, name, status)
+                
+            })
+
+            //On Send to IT department button click
+            $('#table-kanban').on('click', '.btn-mark-close', function(event){
+                event.preventDefault();
+                const id       = $(this).data('id');
+                const name     = $(this).data('name');
+                const status     = 4;
+
+                changeStatus(id, name, status)
+                
+            })
+
+            //Change Status
+            function changeStatus(id, name, status){
+                const formData = new FormData();
+                formData.append('id', id);
+                formData.append('name', name);
+                formData.append('status', status);
+                formData.append('_method', 'POST');
+                formData.append('_token', '{{ csrf_token() }}');
+                swalConfirm({
+                    title: 'Change kanban status?',
+                    confirm: 'Proceed',
+                    cancel: 'Cancel',
+                    icon: 'question',
+                    complete: (result) => {
+                        $.ajax({
+                            url: '{{ route('kanban.status') }}',
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(result) {
+                                tableKanban();
+                                swalSuccess('',result.message);
+                            }
+                        })
+                    }
+                })
+            }
+
+            /**
+             * Help Button
+             */
+             $('.btn-help').on('click', function(event) {
+                event.preventDefault();
+                $('.help-modal').modal('toggle');
+            });
+
         })
     </script>
 @endpush

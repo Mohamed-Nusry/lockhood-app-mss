@@ -33,4 +33,13 @@ class Material extends Authenticatable
         return $this->belongsTo('App\Models\User', 'updated_by', 'id');
     }
 
+    public function createdUser() {
+        return $this->belongsTo('App\Models\User', 'created_by', 'id');
+    }
+
+    public function updateUser() {
+        return $this->belongsTo('App\Models\User', 'updated_by', 'id');
+    }
+
+
 }

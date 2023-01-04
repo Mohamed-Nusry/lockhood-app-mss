@@ -25,7 +25,15 @@
             </div>
 
             <div class="col-4">
-                <button type="submit" class="btn btn-primary mt-4" style="margin-top: 36px !important;" >Download PDF</button>
+              
+
+                @if(Auth::user()->user_type != null)
+                    @if(Auth::user()->user_type != 5)
+                        <button type="submit" class="btn btn-primary mt-4" style="margin-top: 36px !important;" >Download PDF</button>
+                    @else
+                        <button disabled type="submit" class="btn btn-primary mt-4" style="margin-top: 36px !important;" >Download PDF &nbsp;&nbsp; <i class="fas fa-question-circle btn-help" style="cursor:pointer;"></i></button>
+                    @endif
+                @endif
 
             </div>
             </div>
@@ -67,6 +75,34 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Help Modal -->
+    <div class="modal fade help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger"><i class="fas fa-exclamation-circle "></i> Access Denied</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="help-form" id="help-form">
+                    <div class="modal-body">
+
+                        <p>If the button is disabled, that means you have no access to perform this operation. Some operations are restricted
+                            to suitable roles. If you have any issues please contact Lockhood system admin.
+                        </p>
+
+                       
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -145,14 +181,15 @@
              */
              $('.btn-create').on('click', function(event) {
                 event.preventDefault();
-                // document.getElementById("assignedwork-form").reset();
-                // const id = null;
-                // $('#material_ids_div').attr('style','display:block !important');
-                // $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Create Work`);
-                // $('#assignedwork-id').val(id);
-                // $('.assignedwork-modal').modal('toggle');
-                // $('#employee_id').attr("disabled", false);
-                // $('#kanban_id').attr("disabled", false);
+            });
+
+            
+            /**
+             * Help Button
+             */
+             $('.btn-help').on('click', function(event) {
+                event.preventDefault();
+                $('.help-modal').modal('toggle');
             });
 
         })

@@ -111,4 +111,20 @@ class AssignedWorkController extends Controller
             return $this->sendError($e);
         }
     }
+
+    public function changeStatus(Request $request){
+
+        try {
+            $input = [];
+            $input = $request->all();
+            $input['updated_by'] = Auth::user()->id;
+           
+            return $this->sendSuccess([
+                'message'   => 'Status has been updated',
+                'data'      => $this->assignedworkService->update($input, $request->id)
+            ]);
+        } catch (\Exception $e) {
+            return $this->sendError($e);
+        }
+    }
 }

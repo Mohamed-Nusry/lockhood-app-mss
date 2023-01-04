@@ -51,6 +51,7 @@ Route::prefix('work')->group(function () {
         Route::post('edit', [KanbanController::class, 'edit'])->name('kanban.edit');
         Route::put('update/{id}', [KanbanController::class, 'update'])->name('kanban.update');
         Route::delete('delete/{id}', [KanbanController::class, 'delete'])->name('kanban.delete');
+        Route::post('status', [KanbanController::class, 'changeStatus'])->name('kanban.status');
     });
 
     Route::prefix('assignedwork')->group(function () {
@@ -59,6 +60,7 @@ Route::prefix('work')->group(function () {
         Route::post('edit', [AssignedWorkController::class, 'edit'])->name('assignedwork.edit');
         Route::put('update/{id}', [AssignedWorkController::class, 'update'])->name('assignedwork.update');
         Route::delete('delete/{id}', [AssignedWorkController::class, 'delete'])->name('assignedwork.delete');
+        Route::post('status', [AssignedWorkController::class, 'changeStatus'])->name('assignedwork.status');
     });
 });
 
