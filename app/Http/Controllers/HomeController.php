@@ -39,10 +39,14 @@ class HomeController extends Controller
         $materials = Material::query()
             ->get(['id', 'name']);
 
+        $kanbans = Kanban::query()
+        ->get(['id', 'name']);
+
         return view('home', [
             'departments' => $departments,
             'suppliers' => $suppliers,
-            'materials' => $materials
+            'materials' => $materials,
+            'kanbans' => $kanbans
         ]);
     }
 }

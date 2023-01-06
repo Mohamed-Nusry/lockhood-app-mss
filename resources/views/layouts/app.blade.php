@@ -8,6 +8,7 @@
     @include('layouts.assets.css.fontawesome')
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('custom/dashboard.css') }}">
 
     @include('layouts.assets.css.overlayscrollbar')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
@@ -141,7 +142,7 @@
 @include('layouts.assets.js.jquery')
 @include('layouts.assets.js.popper')
 <script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('js/app2.js') }}"></script>
+<script src="{{ asset('custom/dashboard.js') }}"></script>
 @include('layouts.assets.js.momentjs')
 @include('layouts.assets.js.overlayscrollbar')
 @include('components.reuse-script')
