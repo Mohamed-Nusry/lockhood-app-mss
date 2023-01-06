@@ -31,4 +31,8 @@ class Department extends Authenticatable
         return $this->belongsTo('App\Models\User', 'updated_by', 'id');
     }
 
+    public function assignedWorks() {
+        return $this->hasMany('App\Models\AssignedWork');
+    }
+
 }
