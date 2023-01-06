@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\KanbanRequest;
 use App\Models\KanbanMaterial;
+use App\Models\Material;
 use App\Services\KanbanService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,16 @@ class KanbanController extends Controller
             return $this->kanbanService->get($request->all());
         }
 
-        return view('pages/kanban/index');
+        //Get Materials
+        $all_materials = [];
+
+        $materials_count = Material::count();
+        if($materials_count > 0){
+            $get_materials = Material::all();
+            $all_materials = $get_materials;
+        }
+
+        return view('pages/kanban/index', compact('all_materials'));
     }
 
     public function edit(Request $request){

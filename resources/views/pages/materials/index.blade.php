@@ -64,12 +64,12 @@
 
                        
                         <div class="form-group">
-                            <label for="name" class="col-form-label">Name</label>
+                            <label for="name" class="col-form-label">Name *</label>
                             <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name">
                         </div>
 
                         <div class="form-group">
-                            <label for="supplier_id" class="col-form-label">Supplier</label>
+                            <label for="supplier_id" class="col-form-label">Supplier *</label>
                             <select id="supplier_id" name="supplier_id" class="form-control">
                                 @if (count($all_suppliers) > 0)
                                     @foreach ($all_suppliers as $supplier)
@@ -84,11 +84,11 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="qty" class="col-form-label">Quantity</label>
+                            <label for="qty" class="col-form-label">Quantity *</label>
                             <input type="number" name="qty" class="form-control" id="qty" placeholder="Enter Quantity">
                         </div>
                         <div class="form-group">
-                            <label for="purchase_price" class="col-form-label">Purchase Price</label>
+                            <label for="purchase_price" class="col-form-label">Purchase Price *</label>
                             <input type="number" name="purchase_price" class="form-control" id="purchase_price" placeholder="Enter Purchase Price">
                         </div>
                        

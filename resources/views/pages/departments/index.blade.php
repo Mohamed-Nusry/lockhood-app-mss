@@ -63,11 +63,11 @@
                     <div class="modal-body">
 
                         <div class="form-group">
-                            <label for="code" class="col-form-label">Code</label>
+                            <label for="code" class="col-form-label">Code *</label>
                             <input type="text" name="code" class="form-control" id="code" placeholder="Enter Code">
                         </div>
                         <div class="form-group">
-                            <label for="name" class="col-form-label">Name</label>
+                            <label for="name" class="col-form-label">Name *</label>
                             <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name">
                         </div>
                        
