@@ -11,7 +11,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
           integrity="sha512-0S+nbAYis87iX26mmj/+fWt1MmaKCv80H+Mbo+Ne7ES4I6rxswpfnC6PxmLiw33Ywj2ghbtTw0FkLbMWqh4F7Q=="
-          crossorigin="anonymous"/>
+          crossorigin="anonymous"/> 
 
     <!-- AdminLTE -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/adminlte.min.css"
@@ -30,19 +30,26 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page fw-bold mb-2 text-uppercase">
 <div class="login-box">
     <div class="login-logo">
-        <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
+        <p>Lockhood System</p>
     </div>
+   
+
+    
 
     <!-- /.login-logo -->
 
     <!-- /.login-box-body -->
     <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">Sign in to start your session</p>
+        <div class="card-body login-card-body bg-dark " style="border-radius: 1rem;>
+            <div class="container py-5 h-100">
+                
+            
+            <p class="login-box-msg text-white-50 mb-3">Sign in to start your session</p>
 
             <form method="post" action="{{ url('/login') }}">
                 @csrf
@@ -86,7 +93,7 @@
                     </div>
 
                     <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                        <button type="submit" class="btn btn-primary  ">Login</button>
                     </div>
 
                 </div>
