@@ -67,11 +67,11 @@
                     <div class="modal-body">
 
                         <div class="form-group">
-                            <label for="name" class="col-form-label">Name</label>
+                            <label for="name" class="col-form-label">Name *</label>
                             <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name">
                         </div>
                         <div class="form-group">
-                            <label for="tasks" class="col-form-label">Tasks</label>
+                            <label for="tasks" class="col-form-label">Tasks *</label>
                             <textarea name="tasks" class="form-control" id="tasks" placeholder="Enter Tasks"></textarea>
                         </div>
                         <div class="form-group">

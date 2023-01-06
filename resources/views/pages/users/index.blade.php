@@ -64,19 +64,19 @@
                     <input id="user-id" type="hidden">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="first_name" class="col-form-label">First Name</label>
+                            <label for="first_name" class="col-form-label">First Name *</label>
                             <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name">
                         </div>
                         <div class="form-group">
-                            <label for="last_name" class="col-form-label">Last Name</label>
+                            <label for="last_name" class="col-form-label">Last Name *</label>
                             <input type="text" name="last_name" class="form-control" id="last_name" placeholder="Last Name">
                         </div>
                         <div class="form-group">
-                            <label for="name" class="col-form-label">Username</label>
+                            <label for="name" class="col-form-label">Username *</label>
                             <input type="text" name="name" class="form-control" id="name" placeholder="Username">
                         </div>
                         <div class="form-group">
-                            <label for="email" class="col-form-label">Email</label>
+                            <label for="email" class="col-form-label">Email *</label>
                             <input type="text" name="email" class="form-control" id="email" placeholder="Email">
                         </div>
                         <div class="form-group">
@@ -109,7 +109,7 @@
 
                         </div>
                         <div class="form-group">
-                            <label for="password" class="col-form-label">Password</label>
+                            <label for="password" class="col-form-label">Password *</label>
                             <input type="password" name="password" class="form-control" id="password" placeholder="Password">
                         </div>
                     </div>

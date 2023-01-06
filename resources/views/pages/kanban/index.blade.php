@@ -65,20 +65,36 @@
                     <div class="modal-body">
 
                         <div class="form-group">
-                            <label for="name" class="col-form-label">Name</label>
+                            <label for="name" class="col-form-label">Name *</label>
                             <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name">
                         </div>
                         <div class="form-group">
-                            <label for="tasks" class="col-form-label">Tasks</label>
+                            <label for="tasks" class="col-form-label">Tasks *</label>
                             <textarea name="tasks" class="form-control" id="tasks" placeholder="Enter Tasks"></textarea>
                         </div>
+
                         <div class="form-group" id="material_ids_div">
+                            <label for="material_ids" class="col-form-label">Materials</label>
+                            <select id="material_ids" name="material_ids[]" class="form-control selectpicker" data-style="outline" multiple data-live-search="true">
+                                @if (count($all_materials) > 0)
+                                    @foreach ($all_materials as $material)
+                                        <option value="{{$material->id}}">{{$material->name}}</option>
+                                    @endforeach
+
+                                @else
+                                    <option selected>No Materials</option>
+                                @endif
+                                
+                            </select>
+                        </div>
+
+                        {{-- <div class="form-group" id="material_ids_div">
                             <label for="material_ids" class="col-form-label">Materials</label>
                             <select id="material_ids" name="material_ids[]" class="form-control selectpicker" data-style="outline" multiple data-live-search="true">
                                 <option value="1">IT</option>
                                 <option value="2">ITa</option>
                             </select>
-                        </div>
+                        </div> --}}
                        
                     </div>
                     <div class="modal-footer">

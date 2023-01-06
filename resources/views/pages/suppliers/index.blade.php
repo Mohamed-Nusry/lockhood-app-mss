@@ -63,7 +63,7 @@
 
                        
                         <div class="form-group">
-                            <label for="name" class="col-form-label">Name</label>
+                            <label for="name" class="col-form-label">Name *</label>
                             <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name">
                         </div>
                         <div class="form-group">
