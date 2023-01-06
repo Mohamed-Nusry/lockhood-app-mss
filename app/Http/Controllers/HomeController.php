@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AssignedWork;
+use App\Models\Department;
+use App\Models\Kanban;
+use App\Models\Material;
+use App\Models\Supplier;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +29,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $departments = Department::query()
+            ->withCount('assignedWorks')
+            ->get(['id', 'name']);
+
+        $suppliers = Supplier::query()
+            ->get(['id', 'name']);
+
+        $materials = Material::query()
+            ->get(['id', 'name']);
+
+        return view('home', [
+            'departments' => $departments,
+            'suppliers' => $suppliers,
+            'materials' => $materials
+        ]);
     }
 }

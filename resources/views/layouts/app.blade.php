@@ -11,8 +11,11 @@
 
     @include('layouts.assets.css.overlayscrollbar')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href=" https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css" rel="stylesheet">
 
     @stack('page_css')
+
 
     <style>
         .sub-active {
@@ -138,6 +141,7 @@
 @include('layouts.assets.js.jquery')
 @include('layouts.assets.js.popper')
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/app2.js') }}"></script>
 @include('layouts.assets.js.momentjs')
 @include('layouts.assets.js.overlayscrollbar')
 @include('components.reuse-script')
