@@ -42,7 +42,6 @@
                                             <th>Created On</th>
                                             <th>Created By</th>
                                             <th>Updated By</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -61,7 +60,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="fas fa-pencil-alt"></i> Create Order</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" onclick="$('.order-modal').modal('toggle');" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -131,7 +130,7 @@
                        
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" onclick="$('.order-modal').modal('toggle');" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <input type="submit" class="btn btn-primary btn-save" value="Save">
                         {{-- <input type="submit" class="btn btn-primary btn-edit" value="Save"> --}}
                     </div>
@@ -146,7 +145,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title text-danger"><i class="fas fa-exclamation-circle "></i> Access Denied</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" onclick="$('.help-modal').modal('toggle');" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -160,7 +159,7 @@
                        
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" onclick="$('.help-modal').modal('toggle');" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
@@ -238,11 +237,6 @@
                     data: 'updated_by',
                     name: 'updated_by',
                 }, 
-                {
-                    data: 'action',
-                    name: 'action',
-                    width: '23%',
-                }
                 ],
                 columnDefs: [{
                     className: 'text-center',

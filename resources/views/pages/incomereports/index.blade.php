@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <h2 style="padding:10px">Income Report</h2>
-        <form name="material-form" id="material-form" method="POST" action="{{url('/report/income/pdf')}}">
+        <form name="order-form" id="order-form" method="POST" action="{{url('/report/income/pdf')}}">
             @csrf
             <div class="row">
                 <div class="col-4">
@@ -42,22 +42,31 @@
 
         <div class="row">
             <div class="col-12">
+                <p style="float: right; font-weight:bold">Total Income - LKR {{$total_income ?? 'N/A'}}</p>
+            </div>
+            <div class="col-12">
+                
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Material List</h3>
+                        <h3 class="card-title">Order List</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                <table id="table-material" class="table table-bordered">
+                                <table id="table-order" class="table table-bordered">
                                     <thead class="thead-dark">
                                         <tr role="row">
                                             <th>No</th>
-                                            <th>Name</th>
-                                            <th>Supplier</th>
-                                            <th>Quantity</th>
-                                            <th>Purchase Price</th>
+                                            <th>Order No</th>
+                                            <th>Customer Name</th>
+                                            <th>Address</th>
+                                            <th>Mobile</th>
+                                            <th>Amount (LKR)</th>
+                                            <th>Discount (LKR)</th>
+                                            <th>Total (LKR)</th>
+                                            <th>Payment Mode</th>
+                                            <th>Reference</th>
                                             <th>Created On</th>
                                             <th>Created By</th>
                                             <th>Updated By</th>
@@ -81,7 +90,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title text-danger"><i class="fas fa-exclamation-circle "></i> Access Denied</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" onclick="$('.help-modal').modal('toggle');" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -95,7 +104,7 @@
                        
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" onclick="$('.help-modal').modal('toggle');" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
@@ -108,13 +117,13 @@
     @include('layouts.assets.js.datatables_js')
 
     <script>
-        tableMaterial();
+        tableOrder();
         /**
-         * load table material
+         * load table order
          */
-        function tableMaterial() {
+        function tableOrder() {
             generateDataTable({
-                selector: $('#table-material'),
+                selector: $('#table-order'),
                 url: '{{ route('incomereport.index') }}',
                 columns: [{
                     data: null,
@@ -126,20 +135,40 @@
                     }
                 }, 
                 {
-                    data: 'name',
-                    name: 'name',
+                    data: 'order_no',
+                    name: 'order_no',
                 }, 
                 {
-                    data: 'supplier_id',
-                    name: 'supplier_id',
-                }, 
-                {
-                    data: 'qty',
-                    name: 'qty',
+                    data: 'customer_name',
+                    name: 'customer_name',
                 },
                 {
-                    data: 'purchase_price',
-                    name: 'purchase_price',
+                    data: 'address',
+                    name: 'address',
+                },
+                {
+                    data: 'mobile',
+                    name: 'mobile',
+                },
+                {
+                    data: 'amount',
+                    name: 'amount',
+                },
+                {
+                    data: 'discount',
+                    name: 'discount',
+                },
+                {
+                    data: 'total',
+                    name: 'total',
+                },
+                {
+                    data: 'payment_status',
+                    name: 'payment_status',
+                },
+                {
+                    data: 'reference',
+                    name: 'reference',
                 },
                 {
                     data: 'created_at',

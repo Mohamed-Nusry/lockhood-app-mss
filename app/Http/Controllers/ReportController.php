@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\AssignedWork;
 use App\Services\AssignedWorkService;
-use App\Services\MaterialService;
+use App\Services\OrderService;
 use App\Models\Material;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use PDF;
@@ -17,7 +18,7 @@ class ReportController extends Controller
 
     public function __construct(
         private AssignedWorkService $assignedworkService,
-        private MaterialService $materialService
+        private OrderService $orderService
     ){}
 
   
@@ -35,11 +36,21 @@ class ReportController extends Controller
     public function incomereport(Request $request){
 
         if($request->ajax()) {
-            return $this->materialService->get($request->all());
+            return $this->orderService->get($request->all());
+        }
+
+        $total_income = 0;
+
+        $order_count = Order::count();
+
+        if($order_count > 0){
+            $get_total_income = Order::sum('total');
+            $total_income = $get_total_income;
         }
 
 
-        return view('pages/incomereports/index');
+
+        return view('pages/incomereports/index', compact('total_income'));
 
         
     }
@@ -100,17 +111,44 @@ class ReportController extends Controller
             $to_date = $request->to;
         }
 
+        $total_income = 0;
+
+        $order_count = Order::count();
+
 
         if($from_date != null && $to_date != null){
-            $materials = Material::whereBetween('created_at', [$from_date, $to_date])->with('supplier')->with('user')->get();
+            $orders = Order::whereBetween('created_at', [$from_date, $to_date])->with('user')->get();
+
+            if($order_count > 0){
+                $get_total_income = Order::whereBetween('created_at', [$from_date, $to_date])->sum('total');
+                $total_income = $get_total_income;
+            }
+    
         }else{
             if($from_date != null && $to_date == null){
-                $materials = Material::whereDate('created_at', '>=', $from_date)->with('supplier')->with('user')->get();
+                $orders = Order::whereDate('created_at', '>=', $from_date)->with('user')->get();
+
+                if($order_count > 0){
+                    $get_total_income = Order::whereDate('created_at', '>=', $from_date)->sum('total');
+                    $total_income = $get_total_income;
+                }
+
             }else{
                 if($to_date != null && $from_date == null){
-                    $materials = Material::whereDate('created_at', '<=', $to_date)->with('supplier')->with('user')->get();
+                    $orders = Order::whereDate('created_at', '<=', $to_date)->with('user')->get();
+
+                    if($order_count > 0){
+                        $get_total_income = Order::whereDate('created_at', '<=', $to_date)->sum('total');
+                        $total_income = $get_total_income;
+                    }
+
                 }else{
-                    $materials = Material::with('supplier')->with('user')->get();
+                    $orders = Order::with('user')->get();
+
+                    if($order_count > 0){
+                        $get_total_income = Order::sum('total');
+                        $total_income = $get_total_income;
+                    }
                 }
             }
         }
@@ -120,7 +158,8 @@ class ReportController extends Controller
             'title' => 'Income Report',
             'from_date' => $from_date,
             'to_date' => $to_date,
-            'materials' => $materials
+            'orders' => $orders,
+            'total_income' => $total_income
         ]; 
             
         $pdf = PDF::loadView('pdf/incomereport', $data);

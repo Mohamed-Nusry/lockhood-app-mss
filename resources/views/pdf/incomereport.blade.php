@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Work Report - Lockhood</title>
+    <title>Income Report - Lockhood</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
@@ -23,27 +23,31 @@
         @endif
     @endif
 
+    <p style="font-weight:bold">Total Income - LKR {{$total_income ?? 'N/A'}}</p>
+
   
   
     <table class="table table-bordered">
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Supplier</th>
-            <th>Quantity</th>
-            <th>Purchase Price</th>
+            <th>Order No</th>
+            <th>Customer Name</th>
+            <th>Address</th>
+            <th>Mobile</th>
+            <th>Amount (LKR)</th>
+            <th>Discount (LKR)</th>
+            <th>Total (LKR)</th>
             <th>Created On</th>
-            <th>Updated By</th>
         </tr>
-        @foreach($materials as $material)
+        @foreach($orders as $order)
         <tr>
-            <td>{{ $material->id }}</td>
-            <td>{{ $material->name }}</td>
-            <td>{{ ($material->supplier && $material->supplier != null) ? $material->supplier->name : 'N/A'  }}</td>
-            <td>{{ $material->qty }}</td>
-            <td>{{ $material->purchase_price }}</td>
-            <td>{{ $material->created_at }}</td>
-            <td>{{ ($material->user && $material->user != null) ? $material->user->first_name.' '.$material->user->last_name : 'N/A'  }}</td>
+            <td>{{ $order->order_no }}</td>
+            <td>{{ $order->customer_name }}</td>
+            <td>{{ $order->address }}</td>
+            <td>{{ $order->mobile }}</td>
+            <td>{{ $order->amount }}</td>
+            <td>{{ $order->discount }}</td>
+            <td>{{ $order->total }}</td>
+            <td>{{ $order->created_at }}</td>
         </tr>
         @endforeach
     </table>
