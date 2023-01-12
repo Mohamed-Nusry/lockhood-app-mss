@@ -10,6 +10,8 @@ use App\Http\Controllers\AssignedWorkController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +81,23 @@ Route::prefix('inventory')->group(function () {
         Route::post('edit', [MaterialController::class, 'edit'])->name('material.edit');
         Route::put('update/{id}', [MaterialController::class, 'update'])->name('material.update');
         Route::delete('delete/{id}', [MaterialController::class, 'delete'])->name('material.delete');
+    });
+
+    Route::prefix('product')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->name('product.index');
+        Route::post('create', [ProductController::class, 'create'])->name('product.create');
+        Route::post('edit', [ProductController::class, 'edit'])->name('product.edit');
+        Route::put('update/{id}', [ProductController::class, 'update'])->name('product.update');
+        Route::delete('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
+    });
+
+    Route::prefix('order')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('order.index');
+        Route::post('create', [OrderController::class, 'create'])->name('order.create');
+        Route::post('price', [OrderController::class, 'price'])->name('order.price');
+        Route::post('edit', [OrderController::class, 'edit'])->name('order.edit');
+        Route::put('update/{id}', [OrderController::class, 'update'])->name('order.update');
+        Route::delete('delete/{id}', [OrderController::class, 'delete'])->name('order.delete');
     });
 
   

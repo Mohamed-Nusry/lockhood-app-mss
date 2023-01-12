@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MaterialRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +26,8 @@ class MaterialRequest extends FormRequest
         return [
             'code' => 'required',
             'name' => 'required',
-            'supplier_id' => 'required',
             'qty' => 'required',
-            'purchase_price' => 'required',
+            'price' => 'required',
         ];
     }
 
@@ -37,9 +36,8 @@ class MaterialRequest extends FormRequest
         return [
             'code.required' => 'Code Required!',
             'name.required' => 'Name Required!',
-            'supplier_id.required' => 'Supplier Required!',
             'qty.required' => 'Quantity Required!',
-            'purchase_price.required' => 'Purchase Price Required!',
+            'price.required' => 'Purchase Price Required!',
         ];
     }
 }

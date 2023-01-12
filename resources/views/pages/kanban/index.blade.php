@@ -75,7 +75,7 @@
 
                         <div class="form-group" id="material_ids_div">
                             <label for="material_ids" class="col-form-label">Materials</label>
-                            <select id="material_ids" name="material_ids[]" class="form-control selectpicker" data-style="outline" multiple data-live-search="true">
+                            <select id="material_ids" name="material_ids[]" class="form-control selectpicker  select-picker-border" data-style="outline" multiple data-live-search="true">
                                 @if (count($all_materials) > 0)
                                     @foreach ($all_materials as $material)
                                         <option value="{{$material->id}}">{{$material->name}}</option>

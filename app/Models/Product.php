@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Material extends Authenticatable
+class Product extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -19,16 +19,11 @@ class Material extends Authenticatable
     protected $fillable = [
         'code',
         'name',
-        'supplier_id',
         'qty',
-        'purchase_price',
+        'price',
         'created_by',
         'updated_by',
     ];
-
-    public function supplier() {
-        return $this->belongsTo('App\Models\Supplier', 'supplier_id', 'id');
-    }
 
     public function user() {
         return $this->belongsTo('App\Models\User', 'updated_by', 'id');

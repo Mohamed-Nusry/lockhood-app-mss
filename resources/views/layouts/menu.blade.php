@@ -81,6 +81,22 @@
             </a>
         </li>
     </ul>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('product.index') }}" class="nav-link {{ request()->is('*inventory/product') ? 'sub-active' : '' }}">
+                &nbsp;&nbsp;&nbsp;
+                <p>Products</p>
+            </a>
+        </li>
+    </ul>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('order.index') }}" class="nav-link {{ request()->is('*inventory/order') ? 'sub-active' : '' }}">
+                &nbsp;&nbsp;&nbsp;
+                <p>Orders</p>
+            </a>
+        </li>
+    </ul>
 </li>
 
 <li class="nav-item {{ request()->is('*report*') ? 'menu-opening menu-open' : '' }}">

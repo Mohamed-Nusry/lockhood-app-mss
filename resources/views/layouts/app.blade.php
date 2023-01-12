@@ -30,6 +30,10 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+
+        .select-picker-border {
+            border: 1px solid !important;
+        }
     </style>
 </head>
 
